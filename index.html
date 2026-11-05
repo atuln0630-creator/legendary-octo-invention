@@ -6,40 +6,202 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart School Medical AI</title>
 <style>
+:root {
+  --primary:#087e8b;
+  --dark:#075985;
+  --bg:#f1f7fb;
+  --white:#fff;
+  --text:#172b4d;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#17233b}
-header{background:linear-gradient(120deg,#075985,#0e7490);color:white;padding:25px 6%}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text)
+}
+header{
+  background:linear-gradient(120deg,#064e75,#0891a1);
+  color:white;
+  padding:28px 6%;
+}
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap
+}
 header h1{margin:0;font-size:28px}
-header p{margin-bottom:0;color:#d9f5ff}
-nav{display:flex;gap:18px;flex-wrap:wrap;padding:14px 6%;background:white;box-shadow:0 2px 10px #0001}
-nav a{color:#075985;text-decoration:none;font-weight:bold}
-.container{max-width:1150px;margin:25px auto;padding:0 18px}
-.hero{background:white;padding:25px;border-radius:18px;box-shadow:0 5px 20px #17365d12}
-.hero h2{color:#075985;margin-top:0}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin:20px 0}
-.card{background:white;padding:20px;border-radius:15px;box-shadow:0 4px 15px #17365d10}
-.card h3{color:#087e8b;margin-top:0}
-.chat{background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px #17365d12}
-.chat h2{color:#075985}
-#messages{height:330px;overflow-y:auto;background:#f5f9fc;border-radius:12px;padding:14px}
-.msg{padding:12px 15px;margin:10px 0;border-radius:12px;max-width:88%;white-space:pre-wrap;line-height:1.5}
-.user{background:#d9f2ff;margin-left:auto}
-.bot{background:#e7f7ed}
-.controls{display:flex;gap:9px;margin-top:12px}
-input,button,textarea{font:inherit}
-input{width:100%;padding:13px;border:1px solid #ccd8e5;border-radius:10px}
-button{border:0;border-radius:10px;padding:12px 18px;background:#087e8b;color:white;cursor:pointer;font-weight:bold}
-button:hover{background:#075985}
-#status{font-size:14px;color:#64748b;margin-top:10px}
+header p{color:#d9f5ff;margin-bottom:0}
+.logo{font-size:35px}
+nav{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+  background:white;
+  padding:16px;
+  position:sticky;
+  top:0;
+  z-index:5;
+  box-shadow:0 3px 12px #0001
+}
+nav a{
+  color:var(--dark);
+  text-decoration:none;
+  font-weight:bold
+}
+nav a:hover{color:#0e9aa7}
+.container{max-width:1200px;margin:28px auto;padding:0 18px}
+.hero{
+  background:linear-gradient(120deg,#e0f7fa,#fff);
+  padding:35px;
+  border-radius:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap
+}
+.hero h2{font-size:30px;color:var(--dark)}
+.hero p{line-height:1.7;max-width:650px}
+.hero-icon{font-size:85px}
+.section-title{margin-top:35px;color:var(--dark)}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin:20px 0
+}
+.card{
+  background:white;
+  padding:22px;
+  border-radius:17px;
+  box-shadow:0 5px 18px #17365d10;
+  transition:.2s
+}
+.card:hover{transform:translateY(-4px)}
+.card h3{color:var(--primary);margin-top:8px}
+.card-icon{font-size:35px}
+.chat{
+  background:white;
+  padding:23px;
+  border-radius:20px;
+  margin-top:35px;
+  box-shadow:0 5px 20px #17365d12
+}
+.chat-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap
+}
+.chat-header h2{color:var(--dark)}
+.online{color:#16834b;font-size:13px;font-weight:bold}
+#messages{
+  height:350px;
+  overflow-y:auto;
+  background:#f3f8fc;
+  padding:15px;
+  border-radius:15px
+}
+.msg{
+  padding:13px 16px;
+  margin:10px 0;
+  border-radius:14px;
+  max-width:85%;
+  line-height:1.6;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere
+}
+.user{background:#d8f0ff;margin-left:auto}
+.bot{background:#e2f7eb;margin-right:auto}
+.controls{
+  display:flex;
+  gap:10px;
+  margin-top:13px
+}
+input,select,button{font:inherit}
+input,select{
+  width:100%;
+  padding:14px;
+  border:1px solid #d1deea;
+  border-radius:11px;
+  outline:none;
+  min-width:0
+}
+input:focus,select:focus{border-color:var(--primary)}
+button{
+  background:var(--primary);
+  color:white;
+  border:0;
+  padding:13px 18px;
+  border-radius:11px;
+  cursor:pointer;
+  font-weight:bold
+}
+button:hover{background:var(--dark)}
+button:disabled{opacity:.6;cursor:not-allowed}
+.secondary{background:#e8f2f7;color:var(--dark)}
+.secondary:hover{background:#d5e8f0}
+.quick{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:14px 0
+}
+.quick button{font-size:13px;padding:10px 13px}
 .small{font-size:13px;color:#64748b;line-height:1.6}
-footer{text-align:center;padding:25px;color:#64748b}
-@media(max-width:600px){.controls{flex-direction:column}.msg{max-width:96%}}
+.settings{
+  background:white;
+  padding:22px;
+  margin-top:25px;
+  border-radius:18px;
+  box-shadow:0 4px 15px #0001
+}
+#status,#connectionStatus{font-size:13px;color:#64748b;margin-top:12px}
+.notice{
+  background:#fff8df;
+  border-left:4px solid #e6a700;
+  padding:14px;
+  border-radius:8px;
+  line-height:1.6;
+  font-size:13px;
+  margin-top:18px
+}
+footer{
+  background:#073b59;
+  color:white;
+  text-align:center;
+  padding:25px;
+  margin-top:40px
+}
+@media(max-width:600px){
+  .hero{padding:23px}
+  .hero h2{font-size:24px}
+  .hero-icon{font-size:55px}
+  .controls{flex-direction:column}
+  .msg{max-width:95%}
+  nav{gap:15px}
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <h1>🏥 Smart School Medical AI</h1>
-  <p>Learn about health, hygiene, safety and first aid.</p>
+  <div class="header-inner">
+    <div>
+      <h1>🏥 Smart School Medical AI</h1>
+      <p>Your smart companion for school health education</p>
+    </div>
+    <div class="logo">🩺</div>
+  </div>
 </header>
 
 <nav>
@@ -50,64 +212,144 @@ footer{text-align:center;padding:25px;color:#64748b}
 </nav>
 
 <main class="container">
+
 <section class="hero" id="home">
-  <h2>Welcome to Smart School Medical</h2>
-  <p>A student-friendly health education website. Ask the AI chatbot general questions about hygiene, nutrition, exercise and school health.</p>
-  <p class="small">This website provides educational information only. It does not diagnose illnesses or replace a doctor.</p>
+  <div>
+    <h2>Welcome to Smart School Medical AI</h2>
+    <p>
+      Learn about healthy habits, nutrition, hygiene and basic first-aid
+      awareness. Ask our AI assistant general health education questions.
+    </p>
+    <a href="#chatbot">
+      <button>Explore AI Chatbot →</button>
+    </a>
+  </div>
+  <div class="hero-icon">👩‍⚕️</div>
 </section>
 
 <section id="health">
-  <h2>🌱 Healthy Habits</h2>
+  <h2 class="section-title">🌱 Healthy Lifestyle</h2>
   <div class="cards">
-    <article class="card"><h3>🧼 Personal Hygiene</h3><p>Wash your hands regularly and maintain daily cleanliness.</p></article>
-    <article class="card"><h3>🥗 Balanced Food</h3><p>Eat a variety of fruits, vegetables and nutritious foods.</p></article>
-    <article class="card"><h3>💧 Drink Water</h3><p>Drink safe water throughout the day.</p></article>
-    <article class="card"><h3>😴 Good Sleep</h3><p>Maintain a regular sleep routine to support learning and wellbeing.</p></article>
+    <article class="card">
+      <div class="card-icon">🧼</div>
+      <h3>Personal Hygiene</h3>
+      <p>Wash your hands regularly and maintain personal cleanliness.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">🥗</div>
+      <h3>Healthy Nutrition</h3>
+      <p>Eat balanced meals with fruits, vegetables and nutritious foods.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">💧</div>
+      <h3>Drink Water</h3>
+      <p>Drink safe water regularly throughout the day.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">😴</div>
+      <h3>Good Sleep</h3>
+      <p>Follow a regular sleep routine for health and learning.</p>
+    </article>
   </div>
 </section>
 
 <section id="firstaid">
-  <h2>🩹 Basic First Aid Awareness</h2>
+  <h2 class="section-title">🩹 First Aid Awareness</h2>
   <div class="cards">
-    <article class="card"><h3>Minor Cuts</h3><p>Tell an adult, gently clean a minor cut with clean running water and cover it with a clean dressing.</p></article>
-    <article class="card"><h3>Burns</h3><p>Tell an adult immediately. Cool a minor burn under cool running water and seek medical advice. Do not apply ice or home remedies.</p></article>
-    <article class="card"><h3>Emergency</h3><p>Get an adult and seek urgent medical help. In India, call 112 for an emergency.</p></article>
+    <article class="card">
+      <div class="card-icon">🩹</div>
+      <h3>Minor Cuts</h3>
+      <p>Tell an adult. A minor cut can be gently cleaned with clean running water and covered with a clean dressing.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">🔥</div>
+      <h3>Burn Awareness</h3>
+      <p>Tell an adult immediately. Cool a minor burn under cool running water. Do not apply ice or home remedies.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">🚑</div>
+      <h3>Emergency Help</h3>
+      <p>Get an adult and seek urgent medical help. In India, call 112 for emergencies.</p>
+    </article>
   </div>
 </section>
 
 <section class="chat" id="chatbot">
-  <h2>🤖 Ask Smart School Medical AI</h2>
-  <p class="small">Ask general health education questions. Do not enter your name, address, phone number or private medical information.</p>
+  <div class="chat-header">
+    <h2>🤖 Smart Medical AI Chatbot</h2>
+    <span class="online">● AI Assistant</span>
+  </div>
+
+  <p class="small">
+    Ask in English or Hindi about general health education.
+    Avoid sharing personal or private medical information.
+  </p>
 
   <div id="messages" aria-live="polite">
-    <div class="msg bot">Hello! I am your School Medical AI assistant. Ask me about hygiene, nutrition, sleep or general first-aid awareness.</div>
+    <div class="msg bot">
+      Hello! 👋 Welcome to Smart School Medical AI.
+
+      You can ask me about:
+      • Personal hygiene
+      • Healthy food
+      • Sleep and exercise
+      • Basic first-aid awareness
+
+      नमस्ते! आप हिंदी या English में सवाल पूछ सकते हैं।
+    </div>
+  </div>
+
+  <h3>Quick Questions</h3>
+  <div class="quick">
+    <button onclick="askQuick('Why is handwashing important?')">🧼 Handwashing</button>
+    <button onclick="askQuick('What is a balanced diet?')">🥗 Balanced Diet</button>
+    <button onclick="askQuick('Why do students need sleep?')">😴 Sleep</button>
+    <button onclick="askQuick('What is personal hygiene?')">🌱 Hygiene</button>
   </div>
 
   <div class="controls">
-    <input id="question" placeholder="Type your health question..." maxlength="1000">
-    <button id="sendBtn" onclick="sendMessage()">Send</button>
+    <input id="question" maxlength="1000"
+      placeholder="Type your question in Hindi or English...">
+    <button id="sendBtn" onclick="sendMessage()">Send ➤</button>
+    <button class="secondary" onclick="clearChat()">Clear</button>
   </div>
-  <div id="status">AI server: Not connected</div>
+  <div id="status">AI Server: Not connected</div>
 </section>
 
-<section class="card" style="margin-top:20px">
-  <h3>⚙️ Connect AI Server</h3>
-  <p class="small">Paste your deployed Cloudflare Worker URL here. Example: https://your-worker.yourname.workers.dev</p>
+<section class="settings">
+  <h2>⚙️ AI Server Settings</h2>
+  <p class="small">
+    Enter your Cloudflare Worker HTTPS URL to activate the AI assistant.
+  </p>
   <div class="controls">
     <input id="serverUrl" placeholder="https://your-worker.workers.dev">
-    <button onclick="connectServer()">Connect</button>
+    <button onclick="connectServer()">Connect AI</button>
   </div>
-  <p id="connectionStatus" class="small">Server not tested yet.</p>
+  <p id="connectionStatus">Server not connected.</p>
 </section>
+
+<div class="notice">
+  ⚠️ <b>Health Safety Notice:</b>
+  This website provides educational information only. It does not diagnose
+  diseases or prescribe medicines. For personal health concerns, speak with
+  a parent, guardian, school nurse or qualified doctor. In an emergency in
+  India, call 112.
+</div>
+
 </main>
 
-<footer>Smart School Medical AI • Health Education Project</footer>
+<footer>
+  <h3>🏥 Smart School Medical AI</h3>
+  <p>Learn Health • Stay Safe • Live Healthy</p>
+  <p class="small">Educational School Project</p>
+</footer>
 
 <script>
 const messages = document.getElementById("messages");
 const questionInput = document.getElementById("question");
 const statusText = document.getElementById("status");
 const serverInput = document.getElementById("serverUrl");
+const sendButton = document.getElementById("sendBtn");
 
 serverInput.value = localStorage.getItem("schoolmed_server") || "";
 
@@ -123,6 +365,16 @@ function getServer() {
   return serverInput.value.trim().replace(/\/+$/, "");
 }
 
+function askQuick(text) {
+  questionInput.value = text;
+  sendMessage();
+}
+
+function clearChat() {
+  messages.innerHTML = "";
+  addMessage("Chat cleared! Ask me a new health education question. 😊", "bot");
+}
+
 async function connectServer() {
   const url = getServer();
   const result = document.getElementById("connectionStatus");
@@ -132,19 +384,21 @@ async function connectServer() {
     return;
   }
 
-  result.textContent = "Checking server...";
+  result.textContent = "Checking AI server...";
+
   try {
     const response = await fetch(url + "/health");
     if (!response.ok) throw new Error("Server returned " + response.status);
+
     const data = await response.json();
     if (data.status !== "ok") throw new Error("Unexpected server response");
 
     localStorage.setItem("schoolmed_server", url);
-    statusText.textContent = "AI server: Connected";
-    result.textContent = "Connected successfully!";
+    statusText.textContent = "AI Server: Connected ✅";
+    result.textContent = "Successfully connected to AI server!";
   } catch (error) {
-    statusText.textContent = "AI server: Not connected";
-    result.textContent = "Connection failed: " + error.message;
+    statusText.textContent = "AI Server: Not connected";
+    result.textContent = "Connection failed. Check Worker URL and settings.";
   }
 }
 
@@ -153,17 +407,17 @@ async function sendMessage() {
   const url = getServer();
 
   if (!question) return;
+
   if (!url) {
-    addMessage("Please connect your AI server first using the Connect AI Server section.", "bot");
+    addMessage("Please connect your AI server first in AI Server Settings.", "bot");
     return;
   }
 
   addMessage(question, "user");
   questionInput.value = "";
-  const button = document.getElementById("sendBtn");
-  button.disabled = true;
-  button.textContent = "Thinking...";
-  statusText.textContent = "AI is preparing an answer...";
+  sendButton.disabled = true;
+  sendButton.textContent = "Thinking...";
+  statusText.textContent = "AI is preparing your answer...";
 
   try {
     const response = await fetch(url + "/chat", {
@@ -173,22 +427,30 @@ async function sendMessage() {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Request failed");
 
-    addMessage(data.reply || "Sorry, I could not create a reply.", "bot");
-    statusText.textContent = "AI server: Connected";
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    addMessage(data.reply || "No answer received. Please try again.", "bot");
+    statusText.textContent = "AI Server: Connected ✅";
+
   } catch (error) {
-    addMessage("Sorry, the AI could not connect. Please check the server URL and try again.", "bot");
-    statusText.textContent = "AI server: Connection problem";
+    addMessage(
+      "Sorry! AI connection failed. Please check your Worker URL and server settings.",
+      "bot"
+    );
+    statusText.textContent = "AI Server: Connection problem";
   } finally {
-    button.disabled = false;
-    button.textContent = "Send";
+    sendButton.disabled = false;
+    sendButton.textContent = "Send ➤";
   }
 }
 
-questionInput.addEventListener("keydown", event => {
+questionInput.addEventListener("keydown", function(event) {
   if (event.key === "Enter") sendMessage();
 });
 </script>
+
 </body>
 </html>
