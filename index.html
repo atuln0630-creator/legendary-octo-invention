@@ -33,62 +33,60 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Medical Knowledge Base for School Environment
 const medicalKnowledge = [
-    {
-        keywords: ["fever", "feverish", "high temp", "temperature", "बुखार"],
-        response: "🌡️ **First Aid for Fever:**\n- Ask the student to sit down and rest.\n- Provide drinking water to prevent dehydration.\n- Apply a cool, damp cloth to the forehead.\n- Notify the school nurse or parents if temperature exceeds 100°F (37.8°C)."
-    },
-    {
-        keywords: ["cut", "bleed", "wound", "injury", "चोट", "खून"],
-        response: "🩹 **First Aid for Cuts & Wounds:**\n- Wash hands or wear gloves before assisting.\n- Apply direct pressure to the wound using a clean tissue or bandage.\n- Rinse gentle cuts with clean running water.\n- Apply an antiseptic ointment and sterile bandage."
-    },
-    {
-        keywords: ["headache", "head pain", "सर दर्द", "सिरदर्द"],
-        response: "🧠 **First Aid for Headache:**\n- Move the student to a quiet, dim room.\n- Encourage drinking 1-2 glasses of water.\n- Allow 15-20 minutes of quiet rest.\n- Check if the student has skipped meals or spent too much time on screens."
-    },
-    {
-        keywords: ["stomach pain", "stomachache", "abdominal pain", "पेट दर्द"],
-        response: "🤢 **First Aid for Stomach Pain:**\n- Have the student rest in a comfortable position.\n- Avoid giving solid foods immediately; offer warm water or ginger tea.\n- Ask if they experienced nausea, vomiting, or diarrhea."
-    },
-    {
-        keywords: ["faint", "dizzy", "dizziness", "unconscious", "चक्कर"],
-        response: "⚠️ **Emergency First Aid for Fainting:**\n- Lay the student flat on their back and elevate their feet slightly.\n- Loosen tight clothing around the neck.\n- Ensure good airflow around the student.\n- Call the school medical officer immediately!"
-    },
-    {
-        keywords: ["burn", "scald", "जलना"],
-        response: "🔥 **First Aid for Burns:**\n- Hold the burned area under cool running water for at least 10-15 minutes.\n- Do NOT apply ice directly or pop any blisters.\n- Cover loosely with a clean, sterile, non-stick bandage."
-    }
+  {
+    keywords: ["fever", "feverish", "high temp", "temperature", "बुखार"],
+    response: "🌡️ **First Aid for Fever:**\n- Ask the student to sit down and rest.\n- Provide drinking water to prevent dehydration.\n- Apply a cool, damp cloth to the forehead.\n- Notify the school nurse or parents if temperature exceeds 100°F (37.8°C)."
+  },
+  {
+    keywords: ["cut", "bleed", "wound", "injury", "चोट", "खून"],
+    response: "🩹 **First Aid for Cuts & Wounds:**\n- Wash hands or wear gloves before assisting.\n- Apply direct pressure to the wound using a clean tissue or bandage.\n- Rinse gentle cuts with clean running water.\n- Apply an antiseptic ointment and sterile bandage."
+  },
+  {
+    keywords: ["headache", "head pain", "सर दर्द", "सिरदर्द"],
+    response: "🧠 **First Aid for Headache:**\n- Move the student to a quiet, dim room.\n- Encourage drinking 1-2 glasses of water.\n- Allow 15-20 minutes of quiet rest.\n- Check if the student has skipped meals or spent too much time on screens."
+  },
+  {
+    keywords: ["stomach pain", "stomachache", "abdominal pain", "पेट दर्द"],
+    response: "🤢 **First Aid for Stomach Pain:**\n- Have the student rest in a comfortable position.\n- Avoid giving solid foods immediately; offer warm water or ginger tea.\n- Ask if they experienced nausea, vomiting, or diarrhea."
+  },
+  {
+    keywords: ["faint", "dizzy", "dizziness", "unconscious", "चक्कर"],
+    response: "⚠️ **Emergency First Aid for Fainting:**\n- Lay the student flat on their back and elevate their feet slightly.\n- Loosen tight clothing around the neck.\n- Ensure good airflow around the student.\n- Call the school medical officer immediately!"
+  },
+  {
+    keywords: ["burn", "scald", "जलना"],
+    response: "🔥 **First Aid for Burns:**\n- Hold the burned area under cool running water for at least 10-15 minutes.\n- Do NOT apply ice directly or pop any blisters.\n- Cover loosely with a clean, sterile, non-stick bandage."
+  }
 ];
 
 function getMedicalAdvice(userText) {
-    const text = userText.toLowerCase();
+  const text = userText.toLowerCase();
+  
+  if (text.includes("severe") || text.includes("unconscious") || text.includes("severe bleeding")) {
+    return "🚨 **EMERGENCY WARNING:** Please escort the student to the School Infirmary immediately or call local emergency services!";
+  }
 
-    if (text.includes("severe") || text.includes("unconscious") || text.includes("severe bleeding")) {
-        return "🚨 **EMERGENCY WARNING:** Please escort the student to the School Infirmary immediately or call local emergency services!";
+  for (const item of medicalKnowledge) {
+    if (item.keywords.some(keyword => text.includes(keyword))) {
+      return item.response;
     }
+  }
 
-    for (const item of medicalKnowledge) {
-        if (item.keywords.some(keyword => text.includes(keyword))) {
-            return item.response;
-        }
-    }
-
-    return "🤖 **Smart School Bot:** I'm not entirely sure about those specific symptoms. Please describe the problem in more detail (e.g., 'fever', 'headache', 'cut on hand') or consult the school medical nurse directly.";
+  return "🤖 **Smart School Bot:** I'm not entirely sure about those specific symptoms. Please describe the problem in more detail (e.g., 'fever', 'headache', 'cut on hand') or consult the school medical nurse directly.";
 }
 
 app.post('/api/chat', (req, res) => {
-    const { message } = req.body;
-    if (!message) {
-        return res.status(400).json({ error: "Message is required" });
-    }
-
-    const reply = getMedicalAdvice(message);
-    res.json({ reply });
+  const { message } = req.body;
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+  const reply = getMedicalAdvice(message);
+  res.json({ reply });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
-
 
 // ==========================================
 // 3. public/index.html (Frontend Code)
@@ -101,75 +99,155 @@ app.listen(PORT, () => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart School Medical Chatbot</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
-        .chat-container { width: 100%; max-width: 480px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; height: 85vh; }
-        .chat-header { background: #0284c7; color: white; padding: 16px; text-align: center; }
-        .chat-header h2 { font-size: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .chat-box { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .message { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; white-space: pre-wrap; }
-        .user-msg { background: #0284c7; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .bot-msg { background: #f1f5f9; color: #1e293b; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e2e8f0; }
-        .chat-input { display: flex; padding: 12px; background: #ffffff; border-top: 1px solid #e2e8f0; gap: 8px; }
-        .chat-input input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 0.95rem; }
-        .chat-input input:focus { border-color: #0284c7; }
-        .chat-input button { background: #0284c7; color: white; border: none; padding: 0 18px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .chat-input button:hover { background: #0369a1; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+        }
+        .chat-header {
+            background: #0284c7;
+            color: white;
+            padding: 16px;
+            text-align: center;
+        }
+        .chat-header h2 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .chat-box {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        .user-msg {
+            background: #0284c7;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .bot-msg {
+            background: #f1f5f9;
+            color: #1e293b;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #e2e8f0;
+        }
+        .chat-input {
+            display: flex;
+            padding: 12px;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            gap: 8px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .chat-input input:focus {
+            border-color: #0284c7;
+        }
+        .chat-input button {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 0 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .chat-input button:hover {
+            background: #0369a1;
+        }
     </style>
 </head>
 <body>
-
-<div class="chat-container">
-    <div class="chat-header">
-        <h2>🏥 Smart School Medical Assistant</h2>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>🏥 Smart School Medical Assistant</h2>
+        </div>
+        <div class="chat-box" id="chatBox">
+            <div class="message bot-msg">👋 Hello! I am your Smart School Medical Chatbot. How can I assist with first-aid guidance or health queries today?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Describe symptoms (e.g., fever, cut, headache)..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()">Send</button>
+        </div>
     </div>
-    <div class="chat-box" id="chatBox">
-        <div class="message bot-msg">👋 Hello! I am your Smart School Medical Chatbot. How can I assist with first-aid guidance or health queries today?</div>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Describe symptoms (e.g., fever, cut, headache)..." onkeypress="if(event.key==='Enter') sendMessage()">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-</div>
 
-<script>
-    async function sendMessage() {
-        const inputField = document.getElementById('userInput');
-        const chatBox = document.getElementById('chatBox');
-        const text = inputField.value.trim();
+    <script>
+        async function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const chatBox = document.getElementById('chatBox');
+            const text = inputField.value.trim();
+            if (!text) return;
 
-        if (!text) return;
-
-        const userDiv = document.createElement('div');
-        userDiv.className = 'message user-msg';
-        userDiv.textContent = text;
-        chatBox.appendChild(userDiv);
-
-        inputField.value = '';
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: text })
-            });
-            const data = await response.json();
-
-            const botDiv = document.createElement('div');
-            botDiv.className = 'message bot-msg';
-            botDiv.textContent = data.reply;
-            chatBox.appendChild(botDiv);
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-msg';
+            userDiv.textContent = text;
+            chatBox.appendChild(userDiv);
+            
+            inputField.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
-        } catch (error) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'message bot-msg';
-            errorDiv.textContent = "❌ Connection error. Please try again.";
-            chatBox.appendChild(errorDiv);
-        }
-    }
-</script>
 
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+
+                const botDiv = document.createElement('div');
+                botDiv.className = 'message bot-msg';
+                botDiv.textContent = data.reply;
+                chatBox.appendChild(botDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message bot-msg';
+                errorDiv.textContent = "❌ Connection error. Please try again.";
+                chatBox.appendChild(errorDiv);
+            }
+        }
+    </script>
 </body>
 </html>
 */
